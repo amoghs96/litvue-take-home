@@ -40,7 +40,6 @@ export const useTableData = (initialCount: number = 50) => {
     if (!data.length) return [];
 
     return data.filter((row) => {
-      // Name filter (case-insensitive)
       if (filters.nameFilter) {
         const nameMatch = row.name
           .toLowerCase()
@@ -48,17 +47,14 @@ export const useTableData = (initialCount: number = 50) => {
         if (!nameMatch) return false;
       }
 
-      // Role filter
       if (filters.roleFilter && row.role !== filters.roleFilter) {
         return false;
       }
 
-      // Status filter
       if (filters.statusFilter && row.status !== filters.statusFilter) {
         return false;
       }
 
-      // Score range filter
       if (row.score < filters.scoreMin || row.score > filters.scoreMax) {
         return false;
       }
@@ -82,7 +78,6 @@ export const useTableData = (initialCount: number = 50) => {
   const handleBulkSelect = useCallback(
     (selected: boolean) => {
       if (selected) {
-        // Select all filtered rows
         setSelectedRows(new Set(filteredData.map((row) => row.id)));
       } else {
         setSelectedRows(new Set());
@@ -95,13 +90,13 @@ export const useTableData = (initialCount: number = 50) => {
     setSelectedRows(new Set());
   }, []);
 
-  // Filter management functions
   const updateFilter = useCallback(
     (key: keyof FilterState, value: string | number) => {
       setFilters((prev) => ({
         ...prev,
         [key]: value,
       }));
+
       // Clear selection when filters change
       setSelectedRows(new Set());
     },
@@ -124,8 +119,8 @@ export const useTableData = (initialCount: number = 50) => {
   }, [filters]);
 
   return {
-    data: filteredData, // Return filtered data
-    allData: data, // Keep reference to all data
+    data: filteredData,
+    allData: data,
     loading,
     error,
     selectedRows,

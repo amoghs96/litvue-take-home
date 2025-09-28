@@ -18,7 +18,7 @@ const App: React.FC = () => {
     handleBulkSelect,
     updateFilter,
     clearFilters,
-  } = useTableData(100000); // Scale up to 100,000 rows
+  } = useTableData(100000);
 
   if (error) {
     return (
@@ -44,8 +44,8 @@ const App: React.FC = () => {
               Employee Data Table - 100K Records
             </CardTitle>
             <p className="text-gray-600">
-              High-performance virtualized table displaying 100,000 employee
-              records with bulk selection
+              Virtualized table displaying 100,000 employee records with bulk
+              selection + filters
             </p>
           </CardHeader>
           <CardContent>

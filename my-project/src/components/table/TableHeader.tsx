@@ -124,8 +124,6 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             </div>
           )}
         </div>
-
-        {/* Row counts now shown in filter section */}
       </div>
 
       {/* Column Headers */}

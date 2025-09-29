@@ -42,7 +42,7 @@ export const SelectFilter: React.FC<SelectFilterProps> = ({
 
       <Select value={value || 'all'} onValueChange={handleValueChange}>
         <SelectTrigger
-          className="w-full bg-white border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full h-10 bg-white border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           aria-label={`Filter by ${label.toLowerCase()}`}
         >
           <SelectValue placeholder={placeholder} />
@@ -50,7 +50,7 @@ export const SelectFilter: React.FC<SelectFilterProps> = ({
 
         <SelectContent>
           <SelectItem value="all" className="font-medium">
-            All {label}
+            Any
           </SelectItem>
 
           {options.map((option) => (

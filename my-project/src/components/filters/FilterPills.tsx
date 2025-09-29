@@ -57,16 +57,6 @@ export const FilterPills: React.FC<FilterPillsProps> = ({
     });
   }
 
-  // Score filter (only if different from default range)
-  if (filters.scoreMin !== 0 || filters.scoreMax !== 100) {
-    activePills.push({
-      key: 'scoreMin', // We'll handle both min/max together
-      label: 'Score',
-      value: `${filters.scoreMin}-${filters.scoreMax}`,
-      clearValue: 0, // Will be handled specially
-    });
-  }
-
   if (activePills.length === 0) {
     return null;
   }
@@ -75,13 +65,7 @@ export const FilterPills: React.FC<FilterPillsProps> = ({
     key: keyof FilterState,
     clearValue: string | number
   ) => {
-    if (key === 'scoreMin') {
-      // Reset both score min and max
-      onFilterChange('scoreMin', 0);
-      onFilterChange('scoreMax', 100);
-    } else {
-      onFilterChange(key, clearValue);
-    }
+    onFilterChange(key, clearValue);
   };
 
   return (

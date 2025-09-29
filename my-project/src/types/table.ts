@@ -25,8 +25,6 @@ export interface FilterState {
   nameFilter: string;
   roleFilter: Role | '';
   statusFilter: Status | '';
-  scoreMin: number;
-  scoreMax: number;
 }
 
 export interface FilteredTableData {

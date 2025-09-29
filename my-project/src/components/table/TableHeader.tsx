@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { TextFilter } from '@/components/filters/TextFilter';
 import { SelectFilter } from '@/components/filters/SelectFilter';
-import { RangeFilter } from '@/components/filters/RangeFilter';
 import { FilterPills } from '@/components/filters/FilterPills';
 import { FilterState } from '@/types/table';
 
@@ -59,9 +58,8 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
     >
       {/* Filter Section */}
       <div className="mb-6 space-y-4">
-        {/* Filters Row - Clean single row layout */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
+        <div className="flex items-end justify-between">
+          <div className="flex items-end gap-6">
             <TextFilter
               value={filters.nameFilter}
               onChange={(value) => onFilterChange('nameFilter', value)}
@@ -85,20 +83,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
               label="Status"
               className="w-36"
             />
-
-            <RangeFilter
-              minValue={filters.scoreMin}
-              maxValue={filters.scoreMax}
-              onMinChange={(value) => onFilterChange('scoreMin', value)}
-              onMaxChange={(value) => onFilterChange('scoreMax', value)}
-              min={0}
-              max={100}
-              label="Score"
-              className="w-44"
-            />
           </div>
 
-          <div className="text-sm font-medium">
+          <div className="text-sm font-medium self-center">
             {hasActiveFilters ? (
               <span className="text-blue-600">
                 {filteredRows.toLocaleString()} of {totalRows.toLocaleString()}{' '}

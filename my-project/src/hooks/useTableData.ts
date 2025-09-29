@@ -6,8 +6,6 @@ const initialFilters: FilterState = {
   nameFilter: '',
   roleFilter: '',
   statusFilter: '',
-  scoreMin: 0,
-  scoreMax: 100,
 };
 
 export const useTableData = (initialCount: number = 50) => {
@@ -52,10 +50,6 @@ export const useTableData = (initialCount: number = 50) => {
       }
 
       if (filters.statusFilter && row.status !== filters.statusFilter) {
-        return false;
-      }
-
-      if (row.score < filters.scoreMin || row.score > filters.scoreMax) {
         return false;
       }
 
@@ -112,9 +106,7 @@ export const useTableData = (initialCount: number = 50) => {
     return (
       filters.nameFilter !== '' ||
       filters.roleFilter !== '' ||
-      filters.statusFilter !== '' ||
-      filters.scoreMin !== 0 ||
-      filters.scoreMax !== 100
+      filters.statusFilter !== ''
     );
   }, [filters]);
 

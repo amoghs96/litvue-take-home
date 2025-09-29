@@ -1,15 +1,19 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { TextFilter } from '@/components/filters/TextFilter';
+import { SelectFilter } from '@/components/filters/SelectFilter';
+import { RangeFilter } from '@/components/filters/RangeFilter';
+import { FilterPills } from '@/components/filters/FilterPills';
+import { FilterState } from '@/types/table';
 
 interface TableHeaderProps {
   totalRows: number;
   filteredRows: number;
   selectedCount: number;
-  nameFilter: string;
+  filters: FilterState;
   hasActiveFilters: boolean;
   onBulkSelect?: (selected: boolean) => void;
-  onNameFilterChange: (value: string) => void;
+  onFilterChange: (key: keyof FilterState, value: string | number) => void;
   onClearFilters: () => void;
 }
 
@@ -17,10 +21,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   totalRows,
   filteredRows,
   selectedCount,
-  nameFilter,
+  filters,
   hasActiveFilters,
   onBulkSelect,
-  onNameFilterChange,
+  onFilterChange,
   onClearFilters,
 }) => {
   const isAllSelected = selectedCount === filteredRows && filteredRows > 0;
@@ -30,6 +34,23 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
     onBulkSelect?.(!isAllSelected);
   };
 
+  // Filter options
+  const roleOptions = [
+    { value: 'admin', label: 'Admin' },
+    { value: 'manager', label: 'Manager' },
+    { value: 'developer', label: 'Developer' },
+    { value: 'designer', label: 'Designer' },
+    { value: 'analyst', label: 'Analyst' },
+    { value: 'intern', label: 'Intern' },
+  ];
+
+  const statusOptions = [
+    { value: 'active', label: 'Active' },
+    { value: 'inactive', label: 'Inactive' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'suspended', label: 'Suspended' },
+  ];
+
   return (
     <div
       className="bg-gray-50 border-b px-6 py-4"
@@ -37,41 +58,69 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
       aria-label="Table controls and headers"
     >
       {/* Filter Section */}
-      <div className="mb-4">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+      <div className="mb-6 space-y-4">
+        {/* Filters Row - Clean single row layout */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-6">
             <TextFilter
-              value={nameFilter}
-              onChange={onNameFilterChange}
+              value={filters.nameFilter}
+              onChange={(value) => onFilterChange('nameFilter', value)}
               placeholder="Search by name..."
               label="Filter by employee name"
-              className="w-80"
+              className="w-72"
             />
 
-            {hasActiveFilters && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onClearFilters}
-                className="text-gray-600 hover:text-gray-800"
-                aria-label="Clear all filters"
-              >
-                Clear Filters
-              </Button>
-            )}
+            <SelectFilter
+              value={filters.roleFilter}
+              onChange={(value) => onFilterChange('roleFilter', value)}
+              options={roleOptions}
+              label="Role"
+              className="w-36"
+            />
+
+            <SelectFilter
+              value={filters.statusFilter}
+              onChange={(value) => onFilterChange('statusFilter', value)}
+              options={statusOptions}
+              label="Status"
+              className="w-36"
+            />
+
+            <RangeFilter
+              minValue={filters.scoreMin}
+              maxValue={filters.scoreMax}
+              onMinChange={(value) => onFilterChange('scoreMin', value)}
+              onMaxChange={(value) => onFilterChange('scoreMax', value)}
+              min={0}
+              max={100}
+              label="Score"
+              className="w-44"
+            />
           </div>
 
-          <div className="text-sm text-gray-600">
+          <div className="text-sm font-medium">
             {hasActiveFilters ? (
-              <span>
-                Showing {filteredRows.toLocaleString()} of{' '}
-                {totalRows.toLocaleString()} rows
+              <span className="text-blue-600">
+                {filteredRows.toLocaleString()} of {totalRows.toLocaleString()}{' '}
+                rows
               </span>
             ) : (
-              <span>{totalRows.toLocaleString()} total rows</span>
+              <span className="text-gray-600">
+                {totalRows.toLocaleString()} total rows
+              </span>
             )}
           </div>
         </div>
+
+        {/* Filter Pills Row */}
+        {hasActiveFilters && (
+          <FilterPills
+            filters={filters}
+            onFilterChange={onFilterChange}
+            onClearAll={onClearFilters}
+            className="pt-2 border-t border-gray-200"
+          />
+        )}
       </div>
 
       {/* Selection Controls */}

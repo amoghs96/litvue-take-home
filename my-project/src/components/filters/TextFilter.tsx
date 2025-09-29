@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import debounce from 'lodash.debounce';
 
 interface TextFilterProps {
@@ -21,11 +21,11 @@ export const TextFilter: React.FC<TextFilterProps> = ({
   const [localValue, setLocalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Create debounced onChange function
-  const debouncedOnChange = useCallback(
-    debounce((newValue: string) => {
-      onChange(newValue);
-    }, debounceMs),
+  const debouncedOnChange = useMemo(
+    () =>
+      debounce((newValue: string) => {
+        onChange(newValue);
+      }, debounceMs),
     [onChange, debounceMs]
   );
 

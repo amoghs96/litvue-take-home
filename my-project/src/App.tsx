@@ -57,11 +57,11 @@ const App: React.FC = () => {
               selectedRows={selectedRows}
               totalRows={totalCount}
               filteredRows={filteredCount}
-              nameFilter={filters.nameFilter}
+              filters={filters}
               hasActiveFilters={hasActiveFilters}
               onRowSelect={handleRowSelect}
               onBulkSelect={handleBulkSelect}
-              onNameFilterChange={(value) => updateFilter('nameFilter', value)}
+              onFilterChange={updateFilter}
               onClearFilters={clearFilters}
             />
           </CardContent>

@@ -1,15 +1,15 @@
 import React, { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { VirtualizedTableProps } from '@/types/table';
+import { VirtualizedTableProps, FilterState } from '@/types/table';
 import { TableRowComponent } from './TableRowComponent';
 import { TableHeader } from './TableHeader';
 
 interface ExtendedVirtualizedTableProps extends VirtualizedTableProps {
   totalRows: number;
   filteredRows: number;
-  nameFilter: string;
+  filters: FilterState;
   hasActiveFilters: boolean;
-  onNameFilterChange: (value: string) => void;
+  onFilterChange: (key: keyof FilterState, value: string | number) => void;
   onClearFilters: () => void;
 }
 
@@ -19,11 +19,11 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
   rowHeight,
   totalRows,
   filteredRows,
-  nameFilter,
+  filters,
   hasActiveFilters,
   onRowSelect,
   onBulkSelect,
-  onNameFilterChange,
+  onFilterChange,
   onClearFilters,
   selectedRows = new Set(),
   loading = false,
@@ -57,10 +57,10 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
         totalRows={totalRows}
         filteredRows={filteredRows}
         selectedCount={selectedRows.size}
-        nameFilter={nameFilter}
+        filters={filters}
         hasActiveFilters={hasActiveFilters}
         onBulkSelect={onBulkSelect}
-        onNameFilterChange={onNameFilterChange}
+        onFilterChange={onFilterChange}
         onClearFilters={onClearFilters}
       />
 

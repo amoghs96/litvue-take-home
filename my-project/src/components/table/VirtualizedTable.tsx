@@ -3,6 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { VirtualizedTableProps, FilterState } from '@/types/table';
 import { TableRowComponent } from './TableRowComponent';
 import { TableHeader } from './TableHeader';
+import { SkeletonTable } from './SkeletonLoader';
 
 interface ExtendedVirtualizedTableProps extends VirtualizedTableProps {
   totalRows: number;
@@ -39,10 +40,11 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-600">Loading data...</span>
-      </div>
+      <SkeletonTable
+        height={height}
+        rowHeight={rowHeight}
+        rowCount={Math.floor(height / rowHeight)}
+      />
     );
   }
 

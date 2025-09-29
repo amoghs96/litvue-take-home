@@ -116,7 +116,7 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
 
   return (
     <div
-      className={`grid grid-cols-8 gap-4 px-6 py-4 border-b border-gray-200 hover:bg-gray-50 transition-colors ${
+      className={`flex gap-4 px-6 py-4 border-b border-gray-200 hover:bg-gray-50 transition-colors ${
         isSelected ? 'bg-blue-50 border-blue-200' : ''
       }`}
       role="row"
@@ -126,8 +126,8 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
       aria-label={`Row for ${row.name}`}
       aria-selected={isSelected}
     >
-      {/* Name & Email */}
-      <div className="col-span-2 flex items-center space-x-3">
+      {/* Name */}
+      <div className="w-64 flex-shrink-0 flex items-center space-x-3">
         <input
           type="checkbox"
           checked={isSelected}
@@ -138,41 +138,40 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
           aria-describedby={`row-${row.id}-info`}
         />
         <div className="min-w-0 flex-1" id={`row-${row.id}-info`}>
-          <div className="text-sm font-medium text-gray-900 truncate">
+          <div
+            className="text-sm font-medium text-gray-900 truncate"
+            title={row.name}
+          >
             {row.name}
           </div>
-          <div className="text-sm text-gray-500 truncate">{row.email}</div>
         </div>
       </div>
 
+      {/* Email */}
+      <div className="w-64 flex-shrink-0 flex items-center">
+        <span className="text-sm text-gray-700 truncate" title={row.email}>
+          {row.email}
+        </span>
+      </div>
+
       {/* Role */}
-      <div className="flex items-center">
+      <div className="w-32 flex-shrink-0 flex items-center">
         <RoleBadge role={row.role} />
       </div>
 
       {/* Status */}
-      <div className="flex items-center">
+      <div className="w-32 flex-shrink-0 flex items-center">
         <StatusBadge status={row.status} />
       </div>
 
       {/* Score */}
-      <div className="flex items-center">
+      <div className="w-24 flex-shrink-0 flex items-center">
         <ScoreBar score={row.score} />
       </div>
 
-      {/* Department */}
-      <div className="flex items-center">
-        <span className="text-sm text-gray-900">{row.department}</span>
-      </div>
-
       {/* Join Date */}
-      <div className="flex items-center">
+      <div className="w-32 flex-shrink-0 flex items-center">
         <span className="text-sm text-gray-500">{row.joinDate}</span>
-      </div>
-
-      {/* Last Active */}
-      <div className="flex items-center">
-        <span className="text-sm text-gray-500">{row.lastActive}</span>
       </div>
     </div>
   );

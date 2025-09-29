@@ -162,19 +162,28 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
 
       {/* Column Headers */}
       <div
-        className="grid grid-cols-8 gap-4 mt-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
+        className="flex gap-4 mt-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
         role="row"
         aria-label="Column headers"
       >
-        <div className="col-span-2" role="columnheader">
-          Name & Email
+        <div className="w-64 flex-shrink-0" role="columnheader">
+          Name
         </div>
-        <div role="columnheader">Role</div>
-        <div role="columnheader">Status</div>
-        <div role="columnheader">Score</div>
-        <div role="columnheader">Department</div>
-        <div role="columnheader">Join Date</div>
-        <div role="columnheader">Last Active</div>
+        <div className="w-64 flex-shrink-0" role="columnheader">
+          Email
+        </div>
+        <div className="w-32 flex-shrink-0" role="columnheader">
+          Role
+        </div>
+        <div className="w-32 flex-shrink-0" role="columnheader">
+          Status
+        </div>
+        <div className="w-24 flex-shrink-0" role="columnheader">
+          Score
+        </div>
+        <div className="w-32 flex-shrink-0" role="columnheader">
+          Join Date
+        </div>
       </div>
     </div>
   );

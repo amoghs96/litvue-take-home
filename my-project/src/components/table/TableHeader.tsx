@@ -33,7 +33,6 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
     onBulkSelect?.(!isAllSelected);
   };
 
-  // Filter options
   const roleOptions = [
     { value: 'admin', label: 'Admin' },
     { value: 'manager', label: 'Manager' },
@@ -56,7 +55,6 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
       role="banner"
       aria-label="Table controls and headers"
     >
-      {/* Filter Section */}
       <div className="mb-6 space-y-4">
         <div className="flex items-end justify-between">
           <div className="flex items-end gap-6">

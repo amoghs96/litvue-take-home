@@ -22,7 +22,6 @@ export const TextFilter: React.FC<TextFilterProps> = ({
   const [localValue, setLocalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Create debounced onChange function
   const debouncedOnChange = useMemo(
     () =>
       debounce((newValue: string) => {
@@ -31,7 +30,6 @@ export const TextFilter: React.FC<TextFilterProps> = ({
     [onChange, debounceMs]
   );
 
-  // Update local value when external value changes
   useEffect(() => {
     setLocalValue(value);
   }, [value]);
@@ -61,10 +59,8 @@ export const TextFilter: React.FC<TextFilterProps> = ({
       </label>
 
       <div className="relative">
-        {/* Search Icon */}
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500 pointer-events-none" />
 
-        {/* Input Field */}
         <input
           ref={inputRef}
           id="text-filter"
@@ -78,7 +74,6 @@ export const TextFilter: React.FC<TextFilterProps> = ({
           aria-describedby={localValue ? 'filter-clear-btn' : undefined}
         />
 
-        {/* Clear Button */}
         {localValue && (
           <button
             id="filter-clear-btn"

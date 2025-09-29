@@ -25,13 +25,13 @@ export const SelectFilter: React.FC<SelectFilterProps> = ({
   value,
   onChange,
   options,
-  placeholder = 'All',
+  placeholder = 'Any',
   label,
   className = '',
 }) => {
   const handleValueChange = (newValue: string) => {
-    // If "all" is selected, pass empty string to clear filter
-    onChange(newValue === 'all' ? '' : newValue);
+    // If "any" is selected, pass empty string to clear filter
+    onChange(newValue === 'any' ? '' : newValue);
   };
 
   return (
@@ -40,7 +40,7 @@ export const SelectFilter: React.FC<SelectFilterProps> = ({
         {label}
       </label>
 
-      <Select value={value || 'all'} onValueChange={handleValueChange}>
+      <Select value={value || 'any'} onValueChange={handleValueChange}>
         <SelectTrigger
           className="w-full h-10 bg-white border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           aria-label={`Filter by ${label.toLowerCase()}`}
@@ -49,10 +49,9 @@ export const SelectFilter: React.FC<SelectFilterProps> = ({
         </SelectTrigger>
 
         <SelectContent>
-          <SelectItem value="all" className="font-medium">
+          <SelectItem value="any" className="font-medium">
             Any
           </SelectItem>
-
           {options.map((option) => (
             <SelectItem
               key={option.value}

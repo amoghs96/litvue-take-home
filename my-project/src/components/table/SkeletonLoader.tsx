@@ -7,50 +7,44 @@ interface SkeletonRowProps {
 const SkeletonRow: React.FC<SkeletonRowProps> = ({ className = '' }) => {
   return (
     <div
-      className={`grid grid-cols-8 gap-4 px-6 py-4 border-b border-gray-200 animate-pulse ${className}`}
+      className={`flex gap-4 px-6 py-4 border-b border-gray-200 animate-pulse ${className}`}
       role="row"
       aria-label="Loading row"
     >
-      {/* Name & Email */}
-      <div className="col-span-2 flex items-center space-x-3">
+      {/* Name */}
+      <div className="w-64 flex-shrink-0 flex items-center space-x-3">
         <div className="h-4 w-4 bg-gray-300 rounded"></div>
         <div className="min-w-0 flex-1">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
-          <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+          <div className="h-4 bg-gray-300 rounded w-3/4"></div>
         </div>
       </div>
 
+      {/* Email */}
+      <div className="w-64 flex-shrink-0 flex items-center">
+        <div className="h-4 bg-gray-300 rounded w-full"></div>
+      </div>
+
       {/* Role */}
-      <div className="flex items-center">
+      <div className="w-32 flex-shrink-0 flex items-center">
         <div className="h-6 bg-gray-300 rounded-full w-20"></div>
       </div>
 
       {/* Status */}
-      <div className="flex items-center">
+      <div className="w-32 flex-shrink-0 flex items-center">
         <div className="h-6 bg-gray-300 rounded-full w-16"></div>
       </div>
 
       {/* Score */}
-      <div className="flex items-center space-x-2">
+      <div className="w-24 flex-shrink-0 flex items-center space-x-2">
         <div className="w-16 bg-gray-200 rounded-full h-2">
           <div className="h-2 bg-gray-300 rounded-full w-3/4"></div>
         </div>
         <div className="h-4 bg-gray-300 rounded w-8"></div>
       </div>
 
-      {/* Department */}
-      <div className="flex items-center">
-        <div className="h-4 bg-gray-300 rounded w-24"></div>
-      </div>
-
       {/* Join Date */}
-      <div className="flex items-center">
+      <div className="w-32 flex-shrink-0 flex items-center">
         <div className="h-4 bg-gray-200 rounded w-20"></div>
-      </div>
-
-      {/* Last Active */}
-      <div className="flex items-center">
-        <div className="h-4 bg-gray-200 rounded w-18"></div>
       </div>
     </div>
   );
@@ -107,14 +101,13 @@ const SkeletonHeader: React.FC<SkeletonHeaderProps> = ({ className = '' }) => {
       </div>
 
       {/* Column headers */}
-      <div className="grid grid-cols-8 gap-4 px-6 py-3 mt-4 border-t bg-white">
-        <div className="col-span-2 h-4 bg-gray-300 rounded w-24"></div>
-        <div className="h-4 bg-gray-300 rounded w-12"></div>
-        <div className="h-4 bg-gray-300 rounded w-16"></div>
-        <div className="h-4 bg-gray-300 rounded w-12"></div>
-        <div className="h-4 bg-gray-300 rounded w-20"></div>
-        <div className="h-4 bg-gray-300 rounded w-20"></div>
-        <div className="h-4 bg-gray-300 rounded w-24"></div>
+      <div className="flex gap-4 px-6 py-3 mt-4 border-t bg-white">
+        <div className="w-64 flex-shrink-0 h-4 bg-gray-300 rounded w-16"></div>
+        <div className="w-64 flex-shrink-0 h-4 bg-gray-300 rounded w-12"></div>
+        <div className="w-32 flex-shrink-0 h-4 bg-gray-300 rounded w-12"></div>
+        <div className="w-32 flex-shrink-0 h-4 bg-gray-300 rounded w-16"></div>
+        <div className="w-24 flex-shrink-0 h-4 bg-gray-300 rounded w-12"></div>
+        <div className="w-32 flex-shrink-0 h-4 bg-gray-300 rounded w-20"></div>
       </div>
     </div>
   );

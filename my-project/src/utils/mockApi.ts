@@ -232,3 +232,42 @@ export const updateRecordScore = async (
     }, 300);
   });
 };
+
+export const bulkDeleteRecords = async (
+  ids: string[]
+): Promise<{ success: boolean; deletedIds: string[]; failedIds: string[] }> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // Validate input
+      if (!ids.length) {
+        reject(new Error('No records selected for deletion'));
+        return;
+      }
+
+      // Simulate some failures in bulk operations
+      const failedIds: string[] = [];
+      const deletedIds: string[] = [];
+
+      ids.forEach((id) => {
+        // 3% chance of individual failure in bulk operation
+        if (Math.random() < 0.03) {
+          failedIds.push(id);
+        } else {
+          deletedIds.push(id);
+        }
+      });
+
+      // If more than 50% failed, consider it a complete failure
+      if (failedIds.length > ids.length / 2) {
+        reject(new Error('Bulk delete operation failed'));
+        return;
+      }
+
+      resolve({
+        success: true,
+        deletedIds,
+        failedIds,
+      });
+    }, 800); // Longer delay for bulk operations
+  });
+};

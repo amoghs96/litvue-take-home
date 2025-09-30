@@ -5,6 +5,7 @@ import {
   deleteRecord,
   updateRecordStatus,
   updateRecordScore,
+  bulkDeleteRecords,
 } from '@/utils/mockApi';
 
 const initialFilters: FilterState = {
@@ -180,6 +181,47 @@ export const useTableData = (initialCount: number = 50) => {
     []
   );
 
+  const handleBulkDelete = useCallback(
+    async (
+      ids: string[]
+    ): Promise<{
+      success: boolean;
+      deletedCount: number;
+      failedCount: number;
+    }> => {
+      try {
+        const response = await bulkDeleteRecords(ids);
+        if (response.success) {
+          // Remove successfully deleted records from data
+          setData((prevData) =>
+            prevData.filter((row) => !response.deletedIds.includes(row.id))
+          );
+
+          // Remove deleted records from selection
+          setSelectedRows((prev) => {
+            const newSet = new Set(prev);
+            response.deletedIds.forEach((id) => newSet.delete(id));
+            return newSet;
+          });
+
+          return {
+            success: true,
+            deletedCount: response.deletedIds.length,
+            failedCount: response.failedIds.length,
+          };
+        }
+        return { success: false, deletedCount: 0, failedCount: ids.length };
+      } catch (err) {
+        console.error('Failed to bulk delete records:', err);
+        setError(
+          err instanceof Error ? err.message : 'Failed to delete records'
+        );
+        return { success: false, deletedCount: 0, failedCount: ids.length };
+      }
+    },
+    []
+  );
+
   const clearError = useCallback(() => {
     setError(null);
   }, []);
@@ -202,6 +244,7 @@ export const useTableData = (initialCount: number = 50) => {
     handleDeleteRecord,
     handleUpdateStatus,
     handleUpdateScore,
+    handleBulkDelete,
     clearError,
   };
 };

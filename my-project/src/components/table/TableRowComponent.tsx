@@ -182,7 +182,10 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
       </div>
 
       {/* Actions */}
-      <div className="w-16 flex-shrink-0 flex items-center">
+      <div
+        className="w-16 flex-shrink-0 flex items-center"
+        onClick={(e) => e.stopPropagation()}
+      >
         <ActionsDropdown
           row={row}
           onDelete={onDeleteRecord}

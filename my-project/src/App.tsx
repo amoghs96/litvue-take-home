@@ -21,6 +21,7 @@ const App: React.FC = () => {
     handleDeleteRecord,
     handleUpdateStatus,
     handleUpdateScore,
+    handleBulkDelete,
   } = useTableData(100000);
 
   if (error) {
@@ -69,6 +70,7 @@ const App: React.FC = () => {
               onDeleteRecord={handleDeleteRecord}
               onUpdateStatus={handleUpdateStatus}
               onUpdateScore={handleUpdateScore}
+              onBulkDelete={handleBulkDelete}
             />
           </CardContent>
         </Card>

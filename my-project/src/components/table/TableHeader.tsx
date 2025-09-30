@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { TextFilter } from '@/components/filters/TextFilter';
 import { SelectFilter } from '@/components/filters/SelectFilter';
@@ -11,9 +11,13 @@ interface TableHeaderProps {
   selectedCount: number;
   filters: FilterState;
   hasActiveFilters: boolean;
+  selectedRows: Set<string>;
   onBulkSelect?: (selected: boolean) => void;
   onFilterChange: (key: keyof FilterState, value: string | number) => void;
   onClearFilters: () => void;
+  onBulkDelete: (
+    ids: string[]
+  ) => Promise<{ success: boolean; deletedCount: number; failedCount: number }>;
 }
 
 export const TableHeader: React.FC<TableHeaderProps> = ({
@@ -22,15 +26,51 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   selectedCount,
   filters,
   hasActiveFilters,
+  selectedRows,
   onBulkSelect,
   onFilterChange,
   onClearFilters,
+  onBulkDelete,
 }) => {
   const isAllSelected = selectedCount === filteredRows && filteredRows > 0;
   const isIndeterminate = selectedCount > 0 && selectedCount < filteredRows;
 
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleBulkSelect = () => {
     onBulkSelect?.(!isAllSelected);
+  };
+
+  const handleBulkDelete = async () => {
+    const selectedIds = Array.from(selectedRows);
+
+    if (selectedIds.length === 0) return;
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${selectedIds.length} selected record${selectedIds.length > 1 ? 's' : ''}?`
+    );
+
+    if (!confirmed) return;
+
+    setIsDeleting(true);
+    try {
+      const result = await onBulkDelete(selectedIds);
+
+      if (result.success) {
+        if (result.failedCount > 0) {
+          alert(
+            `Bulk delete completed. ${result.deletedCount} records deleted successfully. ${result.failedCount} records failed to delete.`
+          );
+        }
+        // Success feedback is implicit (records disappear from table)
+      } else {
+        alert('Failed to delete selected records. Please try again.');
+      }
+    } catch {
+      alert('An error occurred while deleting records. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const roleOptions = [
@@ -152,8 +192,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
                 size="sm"
                 className="border-red-600 text-red-700 hover:bg-red-50"
                 aria-label={`Delete ${selectedCount} selected rows`}
+                onClick={handleBulkDelete}
+                disabled={isDeleting || selectedCount === 0}
               >
-                Delete Selected
+                {isDeleting ? 'Deleting...' : 'Delete Selected'}
               </Button>
             </div>
           )}

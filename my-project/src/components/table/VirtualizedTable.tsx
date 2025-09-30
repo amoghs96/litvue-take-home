@@ -15,6 +15,9 @@ interface ExtendedVirtualizedTableProps extends VirtualizedTableProps {
   onDeleteRecord: (id: string) => Promise<boolean>;
   onUpdateStatus: (id: string, status: Status) => Promise<boolean>;
   onUpdateScore: (id: string, score: number) => Promise<boolean>;
+  onBulkDelete: (
+    ids: string[]
+  ) => Promise<{ success: boolean; deletedCount: number; failedCount: number }>;
 }
 
 export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
@@ -32,6 +35,7 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
   onDeleteRecord,
   onUpdateStatus,
   onUpdateScore,
+  onBulkDelete,
   selectedRows = new Set(),
   loading = false,
 }) => {
@@ -67,9 +71,11 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
         selectedCount={selectedRows.size}
         filters={filters}
         hasActiveFilters={hasActiveFilters}
+        selectedRows={selectedRows}
         onBulkSelect={onBulkSelect}
         onFilterChange={onFilterChange}
         onClearFilters={onClearFilters}
+        onBulkDelete={onBulkDelete}
       />
 
       <div

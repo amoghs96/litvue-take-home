@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { VirtualizedTableProps, FilterState } from '@/types/table';
+import { VirtualizedTableProps, FilterState, Status } from '@/types/table';
 import { TableRowComponent } from './TableRowComponent';
 import { TableHeader } from './TableHeader';
 import { SkeletonTable } from './SkeletonLoader';
@@ -12,6 +12,9 @@ interface ExtendedVirtualizedTableProps extends VirtualizedTableProps {
   hasActiveFilters: boolean;
   onFilterChange: (key: keyof FilterState, value: string | number) => void;
   onClearFilters: () => void;
+  onDeleteRecord: (id: string) => Promise<boolean>;
+  onUpdateStatus: (id: string, status: Status) => Promise<boolean>;
+  onUpdateScore: (id: string, score: number) => Promise<boolean>;
 }
 
 export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
@@ -26,6 +29,9 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
   onBulkSelect,
   onFilterChange,
   onClearFilters,
+  onDeleteRecord,
+  onUpdateStatus,
+  onUpdateScore,
   selectedRows = new Set(),
   loading = false,
 }) => {
@@ -100,6 +106,9 @@ export const VirtualizedTable: React.FC<ExtendedVirtualizedTableProps> = ({
                 onSelect={(selected) =>
                   onRowSelect?.(data[virtualItem.index].id, selected)
                 }
+                onDeleteRecord={onDeleteRecord}
+                onUpdateStatus={onUpdateStatus}
+                onUpdateScore={onUpdateScore}
               />
             </div>
           ))}

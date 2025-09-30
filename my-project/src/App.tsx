@@ -18,6 +18,9 @@ const App: React.FC = () => {
     handleBulkSelect,
     updateFilter,
     clearFilters,
+    handleDeleteRecord,
+    handleUpdateStatus,
+    handleUpdateScore,
   } = useTableData(100000);
 
   if (error) {
@@ -63,6 +66,9 @@ const App: React.FC = () => {
               onBulkSelect={handleBulkSelect}
               onFilterChange={updateFilter}
               onClearFilters={clearFilters}
+              onDeleteRecord={handleDeleteRecord}
+              onUpdateStatus={handleUpdateStatus}
+              onUpdateScore={handleUpdateScore}
             />
           </CardContent>
         </Card>

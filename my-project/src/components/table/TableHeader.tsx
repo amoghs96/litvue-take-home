@@ -71,7 +71,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
               onChange={(value) => onFilterChange('roleFilter', value)}
               options={roleOptions}
               label="Role"
-              className="w-36"
+              className="w-42"
             />
 
             <SelectFilter
@@ -79,7 +79,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
               onChange={(value) => onFilterChange('statusFilter', value)}
               options={statusOptions}
               label="Status"
-              className="w-36"
+              className="w-42"
             />
           </div>
 
@@ -166,7 +166,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         role="row"
         aria-label="Column headers"
       >
-        <div className="w-64 flex-shrink-0" role="columnheader">
+        <div className="w-40 flex-shrink-0" role="columnheader">
           Name
         </div>
         <div className="w-64 flex-shrink-0" role="columnheader">
@@ -183,6 +183,9 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
         </div>
         <div className="w-32 flex-shrink-0" role="columnheader">
           Join Date
+        </div>
+        <div className="w-16 flex-shrink-0" role="columnheader">
+          Actions
         </div>
       </div>
     </div>

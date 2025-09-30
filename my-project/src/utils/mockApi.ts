@@ -171,3 +171,64 @@ export const fetchMockData = async (
     }, 500); // 500ms delay to simulate network request
   });
 };
+
+// Mock API endpoints for CRUD operations
+export const deleteRecord = async (
+  id: string
+): Promise<{ success: boolean; data: Partial<TableRow> }> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // Simulate occasional API failures
+      if (Math.random() < 0.05) {
+        reject(new Error('Failed to delete record'));
+        return;
+      }
+      resolve({ data: { id }, success: true });
+    }, 300);
+  });
+};
+
+export const updateRecordStatus = async (
+  id: string,
+  status: Status
+): Promise<{ success: boolean; data: Partial<TableRow> }> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // Simulate occasional API failures
+      if (Math.random() < 0.05) {
+        reject(new Error('Failed to update status'));
+        return;
+      }
+      resolve({
+        success: true,
+        data: { id, status },
+      });
+    }, 300);
+  });
+};
+
+export const updateRecordScore = async (
+  id: string,
+  score: number
+): Promise<{ success: boolean; data: Partial<TableRow> }> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // Validate score range
+      if (score < 1 || score > 100) {
+        reject(new Error('Score must be between 1 and 100'));
+        return;
+      }
+
+      // Simulate occasional API failures
+      if (Math.random() < 0.05) {
+        reject(new Error('Failed to update score'));
+        return;
+      }
+
+      resolve({
+        success: true,
+        data: { id, score },
+      });
+    }, 300);
+  });
+};

@@ -1,10 +1,14 @@
 import React from 'react';
-import { TableRow } from '@/types/table';
+import { TableRow, Status } from '@/types/table';
+import { ActionsDropdown } from './ActionsDropdown';
 
 interface TableRowComponentProps {
   row: TableRow;
   isSelected: boolean;
   onSelect: (selected: boolean) => void;
+  onDeleteRecord: (id: string) => Promise<boolean>;
+  onUpdateStatus: (id: string, status: Status) => Promise<boolean>;
+  onUpdateScore: (id: string, score: number) => Promise<boolean>;
 }
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
@@ -102,6 +106,9 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
   row,
   isSelected,
   onSelect,
+  onDeleteRecord,
+  onUpdateStatus,
+  onUpdateScore,
 }) => {
   const handleSelect = () => {
     onSelect(!isSelected);
@@ -127,7 +134,7 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
       aria-selected={isSelected}
     >
       {/* Name */}
-      <div className="w-64 flex-shrink-0 flex items-center space-x-3">
+      <div className="w-40 flex-shrink-0 flex items-center space-x-3">
         <input
           type="checkbox"
           checked={isSelected}
@@ -172,6 +179,16 @@ export const TableRowComponent: React.FC<TableRowComponentProps> = ({
       {/* Join Date */}
       <div className="w-32 flex-shrink-0 flex items-center">
         <span className="text-sm text-gray-500">{row.joinDate}</span>
+      </div>
+
+      {/* Actions */}
+      <div className="w-16 flex-shrink-0 flex items-center">
+        <ActionsDropdown
+          row={row}
+          onDelete={onDeleteRecord}
+          onUpdateStatus={onUpdateStatus}
+          onUpdateScore={onUpdateScore}
+        />
       </div>
     </div>
   );

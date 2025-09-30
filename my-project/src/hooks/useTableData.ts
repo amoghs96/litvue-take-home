@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { TableRow, FilterState } from '@/types/table';
-import { fetchMockData } from '@/utils/mockApi';
+import { TableRow, FilterState, Status } from '@/types/table';
+import {
+  fetchMockData,
+  deleteRecord,
+  updateRecordStatus,
+  updateRecordScore,
+} from '@/utils/mockApi';
 
 const initialFilters: FilterState = {
   nameFilter: '',
@@ -110,6 +115,75 @@ export const useTableData = (initialCount: number = 50) => {
     );
   }, [filters]);
 
+  // Mutation functions
+  const handleDeleteRecord = useCallback(
+    async (id: string): Promise<boolean> => {
+      try {
+        await deleteRecord(id);
+        setData((prevData) => prevData.filter((row) => row.id !== id));
+        setSelectedRows((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(id);
+          return newSet;
+        });
+        return true;
+      } catch (err) {
+        console.error('Failed to delete record:', err);
+        setError(
+          err instanceof Error ? err.message : 'Failed to delete record'
+        );
+        return false;
+      }
+    },
+    []
+  );
+
+  const handleUpdateStatus = useCallback(
+    async (id: string, status: Status): Promise<boolean> => {
+      try {
+        const response = await updateRecordStatus(id, status);
+        if (response.success) {
+          setData((prevData) =>
+            prevData.map((row) => (row.id === id ? { ...row, status } : row))
+          );
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.error('Failed to update status:', err);
+        setError(
+          err instanceof Error ? err.message : 'Failed to update status'
+        );
+        return false;
+      }
+    },
+    []
+  );
+
+  const handleUpdateScore = useCallback(
+    async (id: string, score: number): Promise<boolean> => {
+      try {
+        const response = await updateRecordScore(id, score);
+        if (response.success) {
+          setData((prevData) =>
+            prevData.map((row) => (row.id === id ? { ...row, score } : row))
+          );
+          return true;
+        }
+        return false;
+      } catch (err) {
+        console.error('Failed to update score:', err);
+        setError(err instanceof Error ? err.message : 'Failed to update score');
+        return false;
+      }
+    },
+    []
+  );
+
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
   return {
     data: filteredData,
     allData: data,
@@ -125,5 +199,9 @@ export const useTableData = (initialCount: number = 50) => {
     clearSelection,
     updateFilter,
     clearFilters,
+    handleDeleteRecord,
+    handleUpdateStatus,
+    handleUpdateScore,
+    clearError,
   };
 };

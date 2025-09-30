@@ -182,14 +182,6 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                className="border-blue-600 text-blue-700 hover:bg-blue-50"
-                aria-label={`Export ${selectedCount} selected rows`}
-              >
-                Export Selected
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
                 className="border-red-600 text-red-700 hover:bg-red-50"
                 aria-label={`Delete ${selectedCount} selected rows`}
                 onClick={handleBulkDelete}
@@ -199,35 +191,6 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
               </Button>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Column Headers */}
-      <div
-        className="flex gap-4 mt-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
-        role="row"
-        aria-label="Column headers"
-      >
-        <div className="w-40 flex-shrink-0" role="columnheader">
-          Name
-        </div>
-        <div className="w-64 flex-shrink-0" role="columnheader">
-          Email
-        </div>
-        <div className="w-32 flex-shrink-0" role="columnheader">
-          Role
-        </div>
-        <div className="w-32 flex-shrink-0" role="columnheader">
-          Status
-        </div>
-        <div className="w-24 flex-shrink-0" role="columnheader">
-          Score
-        </div>
-        <div className="w-32 flex-shrink-0" role="columnheader">
-          Join Date
-        </div>
-        <div className="w-16 flex-shrink-0" role="columnheader">
-          Actions
         </div>
       </div>
     </div>

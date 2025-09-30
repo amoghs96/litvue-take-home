@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoreHorizontal, Trash2, Edit, Star } from 'lucide-react';
+import { MoreHorizontal, Trash2, Edit, ArrowUpDown } from 'lucide-react';
 import { TableRow, Status } from '@/types/table';
 import { Button } from '@/components/ui/button';
 import {
@@ -104,7 +104,7 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
-            <Star className="mr-2 h-4 w-4" />
+            <ArrowUpDown className="mr-2 h-4 w-4" />
             Update Score
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>

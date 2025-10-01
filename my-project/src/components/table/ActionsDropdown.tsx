@@ -12,6 +12,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
+import { toast } from 'sonner';
 
 interface ActionsDropdownProps {
   row: TableRow;
@@ -36,15 +38,21 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
   onUpdateScore,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  const handleDelete = async () => {
-    if (window.confirm(`Are you sure you want to delete ${row.name}?`)) {
-      setIsLoading(true);
-      try {
-        await onDelete(row.id);
-      } finally {
-        setIsLoading(false);
+  const handleDeleteConfirm = async () => {
+    setIsLoading(true);
+    try {
+      const success = await onDelete(row.id);
+      if (success) {
+        toast.success(`${row.name} has been deleted successfully`);
+      } else {
+        toast.error('Failed to delete record. Please try again.');
       }
+    } catch {
+      toast.error('An error occurred while deleting the record');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,7 +61,14 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
 
     setIsLoading(true);
     try {
-      await onUpdateStatus(row.id, status);
+      const success = await onUpdateStatus(row.id, status);
+      if (success) {
+        toast.success(`Status updated to ${status} for ${row.name}`);
+      } else {
+        toast.error('Failed to update status. Please try again.');
+      }
+    } catch {
+      toast.error('An error occurred while updating status');
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +79,14 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
 
     setIsLoading(true);
     try {
-      await onUpdateScore(row.id, score);
+      const success = await onUpdateScore(row.id, score);
+      if (success) {
+        toast.success(`Score updated to ${score} for ${row.name}`);
+      } else {
+        toast.error('Failed to update score. Please try again.');
+      }
+    } catch {
+      toast.error('An error occurred while updating score');
     } finally {
       setIsLoading(false);
     }
@@ -122,11 +144,26 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
         </DropdownMenuSub>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleDelete} variant="destructive">
+        <DropdownMenuItem
+          onClick={() => setShowDeleteDialog(true)}
+          variant="destructive"
+        >
           <Trash2 className="mr-2 h-4 w-4" />
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
+
+      <ConfirmationDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        title="Delete Employee"
+        description={`Are you sure you want to delete ${row.name}? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        variant="destructive"
+        onConfirm={handleDeleteConfirm}
+        isLoading={isLoading}
+      />
     </DropdownMenu>
   );
 };

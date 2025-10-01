@@ -4,6 +4,8 @@ import { TextFilter } from '@/components/filters/TextFilter';
 import { SelectFilter } from '@/components/filters/SelectFilter';
 import { FilterPills } from '@/components/filters/FilterPills';
 import { FilterState } from '@/types/table';
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
+import { toast } from 'sonner';
 
 interface TableHeaderProps {
   totalRows: number;
@@ -36,21 +38,14 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
   const isIndeterminate = selectedCount > 0 && selectedCount < filteredRows;
 
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showBulkDeleteDialog, setShowBulkDeleteDialog] = useState(false);
 
   const handleBulkSelect = () => {
     onBulkSelect?.(!isAllSelected);
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDeleteConfirm = async () => {
     const selectedIds = Array.from(selectedRows);
-
-    if (selectedIds.length === 0) return;
-
-    const confirmed = window.confirm(
-      `Are you sure you want to delete ${selectedIds.length} selected record${selectedIds.length > 1 ? 's' : ''}?`
-    );
-
-    if (!confirmed) return;
 
     setIsDeleting(true);
     try {
@@ -58,16 +53,21 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
 
       if (result.success) {
         if (result.failedCount > 0) {
-          alert(
+          toast.warning(
             `Bulk delete completed. ${result.deletedCount} records deleted successfully. ${result.failedCount} records failed to delete.`
           );
+        } else {
+          toast.success(
+            `Successfully deleted ${result.deletedCount} record${result.deletedCount > 1 ? 's' : ''}`
+          );
         }
-        // Success feedback is implicit (records disappear from table)
       } else {
-        alert('Failed to delete selected records. Please try again.');
+        toast.error('Failed to delete selected records. Please try again.');
       }
     } catch {
-      alert('An error occurred while deleting records. Please try again.');
+      toast.error(
+        'An error occurred while deleting records. Please try again.'
+      );
     } finally {
       setIsDeleting(false);
     }
@@ -180,11 +180,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
               aria-label="Bulk actions"
             >
               <Button
-                variant="outline"
+                variant="destructive"
                 size="sm"
-                className="border-red-600 text-red-700 hover:bg-red-50"
                 aria-label={`Delete ${selectedCount} selected rows`}
-                onClick={handleBulkDelete}
+                onClick={() => setShowBulkDeleteDialog(true)}
                 disabled={isDeleting || selectedCount === 0}
               >
                 {isDeleting ? 'Deleting...' : 'Delete Selected'}
@@ -193,6 +192,18 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
           )}
         </div>
       </div>
+
+      <ConfirmationDialog
+        open={showBulkDeleteDialog}
+        onOpenChange={setShowBulkDeleteDialog}
+        title="Delete Selected Records"
+        description={`Are you sure you want to delete ${selectedCount} selected record${selectedCount > 1 ? 's' : ''}? This action cannot be undone.`}
+        confirmText="Delete All"
+        cancelText="Cancel"
+        variant="destructive"
+        onConfirm={handleBulkDeleteConfirm}
+        isLoading={isDeleting}
+      />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import './App.css';
 import { VirtualizedTable } from '@/components/table/VirtualizedTable';
 import { useTableData } from '@/hooks/useTableData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Toaster } from '@/components/ui/sonner';
 
 const App: React.FC = () => {
   const {
@@ -75,6 +76,7 @@ const App: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+      <Toaster />
     </div>
   );
 };

@@ -96,44 +96,50 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
       aria-label="Table controls and headers"
     >
       <div className="mb-6 space-y-4">
-        <div className="flex items-end justify-between">
-          <div className="flex items-end gap-6">
-            <TextFilter
-              value={filters.nameFilter}
-              onChange={(value) => onFilterChange('nameFilter', value)}
-              placeholder="Search by name..."
-              label="Filter by employee name"
-              className="w-72"
-            />
+        <div className="flex flex-col gap-4">
+          {/* Filters - horizontally scrollable */}
+          <div className="overflow-x-auto">
+            <div className="flex items-end justify-between min-w-max pb-2">
+              <div className="flex items-end gap-6">
+                <TextFilter
+                  value={filters.nameFilter}
+                  onChange={(value) => onFilterChange('nameFilter', value)}
+                  placeholder="Search by name..."
+                  label="Filter by employee name"
+                  className="w-72 flex-shrink-0"
+                />
 
-            <SelectFilter
-              value={filters.roleFilter}
-              onChange={(value) => onFilterChange('roleFilter', value)}
-              options={roleOptions}
-              label="Role"
-              className="w-42"
-            />
+                <SelectFilter
+                  value={filters.roleFilter}
+                  onChange={(value) => onFilterChange('roleFilter', value)}
+                  options={roleOptions}
+                  label="Role"
+                  className="w-42 flex-shrink-0"
+                />
 
-            <SelectFilter
-              value={filters.statusFilter}
-              onChange={(value) => onFilterChange('statusFilter', value)}
-              options={statusOptions}
-              label="Status"
-              className="w-42"
-            />
-          </div>
+                <SelectFilter
+                  value={filters.statusFilter}
+                  onChange={(value) => onFilterChange('statusFilter', value)}
+                  options={statusOptions}
+                  label="Status"
+                  className="w-42 flex-shrink-0"
+                />
+              </div>
 
-          <div className="text-sm font-medium self-center">
-            {hasActiveFilters ? (
-              <span className="text-blue-600">
-                {filteredRows.toLocaleString()} of {totalRows.toLocaleString()}{' '}
-                rows
-              </span>
-            ) : (
-              <span className="text-gray-600">
-                {totalRows.toLocaleString()} total rows
-              </span>
-            )}
+              {/* Row count - back to the right side */}
+              <div className="text-sm font-medium flex-shrink-0 ml-6">
+                {hasActiveFilters ? (
+                  <span className="text-blue-600">
+                    {filteredRows.toLocaleString()} of {totalRows.toLocaleString()}{' '}
+                    rows
+                  </span>
+                ) : (
+                  <span className="text-gray-600">
+                    {totalRows.toLocaleString()} total rows
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 

@@ -48,6 +48,11 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.stopPropagation();
+              }
+            }}
             disabled={isLoading}
           >
             {cancelText}
@@ -55,6 +60,11 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
           <Button
             variant={variant}
             onClick={handleConfirm}
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.stopPropagation();
+              }
+            }}
             disabled={isLoading}
           >
             {isLoading ? 'Processing...' : confirmText}

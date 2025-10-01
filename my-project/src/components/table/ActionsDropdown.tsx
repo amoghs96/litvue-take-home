@@ -100,13 +100,24 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
           className="h-8 w-8 p-0"
           aria-label={`Actions for ${row.name}`}
           disabled={isLoading}
+          onKeyDown={(e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+              e.stopPropagation();
+            }
+          }}
         >
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[180px]">
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.stopPropagation();
+              }
+            }}
+          >
             <Edit className="mr-2 h-4 w-4" />
             Update Status
           </DropdownMenuSubTrigger>
@@ -115,6 +126,11 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
               <DropdownMenuItem
                 key={status.value}
                 onClick={() => handleStatusUpdate(status.value)}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    e.stopPropagation();
+                  }
+                }}
                 disabled={status.value === row.status}
               >
                 {status.label}
@@ -125,7 +141,13 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
         </DropdownMenuSub>
 
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.stopPropagation();
+              }
+            }}
+          >
             <ArrowUpDown className="mr-2 h-4 w-4" />
             Update Score
           </DropdownMenuSubTrigger>
@@ -134,6 +156,11 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
               <DropdownMenuItem
                 key={score}
                 onClick={() => handleScoreUpdate(score)}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    e.stopPropagation();
+                  }
+                }}
                 disabled={score === row.score}
               >
                 {score}
@@ -146,6 +173,11 @@ export const ActionsDropdown: React.FC<ActionsDropdownProps> = ({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => setShowDeleteDialog(true)}
+          onKeyDown={(e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+              e.stopPropagation();
+            }
+          }}
           variant="destructive"
         >
           <Trash2 className="mr-2 h-4 w-4" />

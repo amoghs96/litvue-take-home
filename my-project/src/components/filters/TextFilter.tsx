@@ -69,7 +69,7 @@ export const TextFilter: React.FC<TextFilterProps> = ({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="h-10 w-full pl-9 pr-10 border border-gray-300 rounded-md bg-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="h-10 w-full pl-9 pr-10 border border-gray-300 rounded-md bg-white text-sm placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
           aria-label={label}
           aria-describedby={localValue ? 'filter-clear-btn' : undefined}
         />

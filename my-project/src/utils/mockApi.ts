@@ -179,7 +179,7 @@ export const deleteRecord = async (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       // Simulate occasional API failures
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.01) {
         reject(new Error('Failed to delete record'));
         return;
       }
@@ -195,7 +195,7 @@ export const updateRecordStatus = async (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       // Simulate occasional API failures
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.01) {
         reject(new Error('Failed to update status'));
         return;
       }
@@ -220,7 +220,7 @@ export const updateRecordScore = async (
       }
 
       // Simulate occasional API failures
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.01) {
         reject(new Error('Failed to update score'));
         return;
       }
@@ -249,8 +249,8 @@ export const bulkDeleteRecords = async (
       const deletedIds: string[] = [];
 
       ids.forEach((id) => {
-        // 3% chance of individual failure in bulk operation
-        if (Math.random() < 0.03) {
+        // 1% chance of individual failure in bulk operation
+        if (Math.random() < 0.01) {
           failedIds.push(id);
         } else {
           deletedIds.push(id);
